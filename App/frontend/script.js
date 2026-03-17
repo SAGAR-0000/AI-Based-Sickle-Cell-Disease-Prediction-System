@@ -6,7 +6,7 @@
 // ---------------------------------------------------------------------------
 // Configuration
 // ---------------------------------------------------------------------------
-const API_BASE_URL = "http://localhost:8000";
+const API_BASE_URL = 'https://sickle-cell-api-o8e6.onrender.com'; // Backend API URL
 const PREDICT_ENDPOINT = `${API_BASE_URL}/predict`;
 const ALLOWED_TYPES = ["image/jpeg", "image/png"];
 
