@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="AI-powered Sickle Cell Disease prediction from blood cell microscopy images using deep learning. Upload an image for instant analysis." />
+  <title>SickleVision — AI Sickle Cell Disease Predictor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- Animated background blobs -->
+  <div class="bg-blob blob-1" aria-hidden="true"></div>
+  <div class="bg-blob blob-2" aria-hidden="true"></div>
+  <div class="bg-blob blob-3" aria-hidden="true"></div>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="logo">
+      <span class="logo-icon">🔬</span>
+      <span class="logo-text">Sickle<span class="logo-accent">Vision</span></span>
+    </div>
+    <nav class="header-nav">
+      <a href="#how-it-works" class="nav-link">How It Works</a>
+      <a href="#upload" class="nav-link cta-link">Analyze</a>
+    </nav>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero" id="hero">
+    <div class="hero-content">
+      <p class="hero-tag">AI-Powered Blood Cell Analysis</p>
+      <h1 class="hero-title">
+        Detect <span class="gradient-text">Sickle Cell Disease</span> in Seconds
+      </h1>
+      <p class="hero-subtitle">
+        Upload a blood smear microscopy image and our deep learning model will predict the presence of sickle cell disease with high accuracy.
+      </p>
+      <a href="#upload" class="btn btn-primary hero-cta">
+        <span>Get Started</span>
+        <svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-card glass-card">
+        <div class="cell-animation">
+          <div class="cell cell-normal"></div>
+          <div class="cell cell-sickle"></div>
+          <div class="cell cell-normal cell-sm"></div>
+        </div>
+        <p class="hero-card-label">MobileNetV2 Deep Learning Model</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- How it works -->
+  <section class="how-it-works" id="how-it-works">
+    <h2 class="section-title">How It Works</h2>
+    <div class="steps-grid">
+      <div class="step-card glass-card">
+        <div class="step-number">01</div>
+        <div class="step-icon">📤</div>
+        <h3 class="step-title">Upload Image</h3>
+        <p class="step-desc">Drag & drop or click to upload a blood smear microscopy image.</p>
+      </div>
+      <div class="step-card glass-card">
+        <div class="step-number">02</div>
+        <div class="step-icon">🧠</div>
+        <h3 class="step-title">AI Analysis</h3>
+        <p class="step-desc">Our MobileNetV2 model analyzes the cell morphology in real-time.</p>
+      </div>
+      <div class="step-card glass-card">
+        <div class="step-number">03</div>
+        <div class="step-icon">📊</div>
+        <h3 class="step-title">Get Results</h3>
+        <p class="step-desc">Receive a prediction with confidence scores instantly.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Upload & Predict -->
+  <section class="upload-section" id="upload">
+    <h2 class="section-title">Analyze Your Sample</h2>
+    <div class="upload-container glass-card">
+      <!-- Drop zone -->
+      <div class="dropzone" id="dropzone">
+        <div class="dropzone-content" id="dropzone-content">
+          <svg class="dropzone-icon" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="8" y="8" width="48" height="48" rx="8" />
+            <circle cx="24" cy="28" r="6" />
+            <path d="M8 44l16-16 12 12 8-8 12 12" />
+          </svg>
+          <p class="dropzone-text">Drag & drop your image here</p>
+          <p class="dropzone-hint">or click to browse &middot; JPG, PNG supported</p>
+        </div>
+        <img class="preview-image hidden" id="preview-image" alt="Uploaded blood smear preview" />
+        <input type="file" id="file-input" accept="image/jpeg,image/png" hidden />
+      </div>
+
+      <!-- Action buttons -->
+      <div class="upload-actions">
+        <button class="btn btn-primary" id="predict-btn" disabled>
+          <span class="btn-label">Predict</span>
+          <span class="btn-spinner hidden" id="btn-spinner"></span>
+        </button>
+        <button class="btn btn-ghost" id="clear-btn" disabled>Clear</button>
+      </div>
+
+      <!-- Results panel -->
+      <div class="results-panel hidden" id="results-panel">
+        <div class="result-header">
+          <span class="result-badge" id="result-badge">—</span>
+          <span class="result-confidence" id="result-confidence"></span>
+        </div>
+        <div class="prob-bars">
+          <div class="prob-row">
+            <span class="prob-label">Negative</span>
+            <div class="prob-track">
+              <div class="prob-fill prob-negative" id="bar-negative" style="width:0%"></div>
+            </div>
+            <span class="prob-value" id="val-negative">0%</span>
+          </div>
+          <div class="prob-row">
+            <span class="prob-label">Positive</span>
+            <div class="prob-track">
+              <div class="prob-fill prob-positive" id="bar-positive" style="width:0%"></div>
+            </div>
+            <span class="prob-value" id="val-positive">0%</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Error panel -->
+      <div class="error-panel hidden" id="error-panel">
+        <p class="error-text" id="error-text"></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <p>&copy; 2026 SickleVision &mdash; Built with MobileNetV2 &amp; FastAPI</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
